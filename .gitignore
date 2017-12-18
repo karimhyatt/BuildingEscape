@@ -3,6 +3,14 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# Unreal Directories
+Binaries/
+Build/
+Intermediate/
+Saved/
+DerivedDataCache/
+Content/StarterContent
+
 # User-specific files
 *.suo
 *.user
@@ -286,3 +294,4 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+/*.bak
