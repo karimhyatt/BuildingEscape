@@ -1,6 +1,7 @@
 // Copyright 2017 Pantheon Productions. All Rights Reserved
 
 #include "OpenDoor.h"
+#include "Gameframework/Actor.h"
 
 
 // Sets default values for this component's properties
@@ -19,8 +20,10 @@ void UOpenDoor::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
-	
+	AActor* owner = GetOwner();
+
+	FRotator newRotation = FRotator(0.0f, -65.0f, 0.0f);
+	owner->SetActorRotation(newRotation);
 }
 
 
