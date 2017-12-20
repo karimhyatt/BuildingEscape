@@ -9,7 +9,9 @@ Build/
 Intermediate/
 Saved/
 DerivedDataCache/
-Content/StarterContent
+Content/StarterContent/Textures
+Content/StarterContent/HDRI
+
 
 # User-specific files
 *.suo
