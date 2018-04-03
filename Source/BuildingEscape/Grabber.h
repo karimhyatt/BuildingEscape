@@ -41,4 +41,5 @@ private:
 	// Ray-case and grab what's in reach
 	void Grab();
 	void Release();
+	void GetLineEnd(OUT FVector& LineEnd, OUT FVector& PLayerViewpointLocation);
 };
