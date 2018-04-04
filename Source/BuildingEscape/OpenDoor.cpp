@@ -1,8 +1,9 @@
 // Copyright 2017 Pantheon Productions. All Rights Reserved
 
 #include "OpenDoor.h"
-#include "Gameframework/Actor.h"
+#include "GameFramework/Actor.h"
 #include "Engine/World.h"
+#include "Runtime/Engine/Classes/Components/PrimitiveComponent.h"
 
 // Sets default values for this component's properties
 UOpenDoor::UOpenDoor()
@@ -19,10 +20,7 @@ UOpenDoor::UOpenDoor()
 void UOpenDoor::BeginPlay()
 {
 	Super::BeginPlay();
-
-	ActorThatOpensTheDoor = GetWorld()->GetFirstPlayerController()->GetPawn();
 	Owner = GetOwner();
-
 }
 
 void UOpenDoor::OpenDoor()
@@ -36,6 +34,23 @@ void UOpenDoor::CloseDoor()
 }
 
 
+float UOpenDoor::GetTotalMassOfActors()
+{
+	float totalMass = 0.f;
+
+	// Find all overlapping actors
+	TArray<AActor*> overlappingActors;
+	PressurePlate->GetOverlappingActors(overlappingActors);
+	// Iterate through them adding total masses
+	for (const auto* actor : overlappingActors)
+	{
+		totalMass += actor->FindComponentByClass<UPrimitiveComponent>()->GetMass();
+		UE_LOG(LogTemp, Warning, TEXT("Actor on Pressure Plate: %s"), *actor->GetName())
+	}
+
+	return totalMass;
+}
+
 // Called every frame
 void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
@@ -43,8 +58,7 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 
 	// Poll Triggervolume very framne
 
-	// If the ActorThatOpensDoor is in the volume then we open the door
-	if (PressurePlate->IsOverlappingActor(ActorThatOpensTheDoor))
+	if (GetTotalMassOfActors() > 30.f) // TODO: Make into a parameter
 	{
 		OpenDoor();
 		LastTimeDoorOpen = GetWorld()->GetTimeSeconds();

@@ -41,7 +41,9 @@ private:
 	UPROPERTY(EditAnywhere)
 	ATriggerVolume* PressurePlate;
 
-	AActor* ActorThatOpensTheDoor;
+
+	float GetTotalMassOfActors();
+
 	AActor* Owner;
 	
 };
