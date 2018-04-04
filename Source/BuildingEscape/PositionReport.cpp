@@ -23,8 +23,6 @@ void UPositionReport::BeginPlay()
 	FString actorName = GetOwner()->GetName();
 	FVector loc = GetOwner()->GetTransform().GetTranslation();
 	FString position = loc.ToString();
-	UE_LOG(LogTemp, Warning, TEXT("%s is at %s"), *actorName, *position);
-
 }
 
 

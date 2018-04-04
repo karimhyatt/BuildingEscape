@@ -20,32 +20,49 @@ UOpenDoor::UOpenDoor()
 void UOpenDoor::BeginPlay()
 {
 	Super::BeginPlay();
+
 	Owner = GetOwner();
+	if (!Owner)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Owner is not set to a reference"))
+	}
+
 }
 
 void UOpenDoor::OpenDoor()
 {
+	if (!Owner) { return; }
 	Owner->SetActorRotation(FRotator(0.0f, OpenAngle, 0.0f));
 }
 
 void UOpenDoor::CloseDoor()
 {
+	if (!Owner) { return; }
 	Owner->SetActorRotation(FRotator(0.0f, 0.0f, 0.0f));
 }
 
 
 float UOpenDoor::GetTotalMassOfActors()
 {
+
+	if (!PressurePlate)
+	{
+		UE_LOG(LogTemp, Error, TEXT("PressurePlate is not set to a reference"))
+		return 0;
+	}
+
 	float totalMass = 0.f;
 
 	// Find all overlapping actors
 	TArray<AActor*> overlappingActors;
+
+
+
 	PressurePlate->GetOverlappingActors(overlappingActors);
 	// Iterate through them adding total masses
 	for (const auto* actor : overlappingActors)
 	{
 		totalMass += actor->FindComponentByClass<UPrimitiveComponent>()->GetMass();
-		UE_LOG(LogTemp, Warning, TEXT("Actor on Pressure Plate: %s"), *actor->GetName())
 	}
 
 	return totalMass;

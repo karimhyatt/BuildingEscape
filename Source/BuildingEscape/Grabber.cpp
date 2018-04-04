@@ -52,6 +52,7 @@ void UGrabber::SetupInputComponent()
 
 void UGrabber::Grab()
 {
+	if (!PhysicsHandle) { return; }
 
 	/// If we hit anything, attach a physics handle
 	auto HitResult = GetFirstPhysicsBodyInReach();
@@ -71,6 +72,8 @@ void UGrabber::Grab()
 
 void UGrabber::Release()
 {
+	if (!PhysicsHandle) { return; }
+
 	PhysicsHandle->ReleaseComponent();
 }
 
@@ -91,6 +94,8 @@ FTwoVectors UGrabber::GetLineTracePoints() const
 void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	if (!PhysicsHandle) { return; }
 
 	FTwoVectors LinePoints = GetLineTracePoints();
 
